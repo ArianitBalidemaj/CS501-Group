@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
         var celsius by remember { mutableStateOf(0f) }
         var fahrenheit by remember { mutableStateOf(32f) }
 
+        // Helper Functions
         fun celsiusToFahrenheit(celsius: Float): Float {
             return (celsius * 9 / 5) + 32
         }
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
             return (fahrenheit - 32) * 5 / 9
         }
 
+        // Used to update parameters for sliders
         fun updateFahrenheitFromCelsius(celsiusValue: Float) {
             fahrenheit = celsiusToFahrenheit(celsiusValue)
         }
@@ -65,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 text = "Celsius: ${celsius.toInt()}ºC",
                 fontSize = 20.sp,
             )
-
+            // When celsius changed, fahrenheit should also be changed, constantly updating both values
             Slider(
                 value = celsius,
                 onValueChange = {
@@ -82,13 +84,14 @@ class MainActivity : ComponentActivity() {
                 text = "Fahrenheit: ${fahrenheit.toInt()}ºF",
                 fontSize = 20.sp,
             )
-
+            // Same concept as before but the other way but a bit different
             Slider(
                 value = fahrenheit,
                 onValueChange = {
                     fahrenheit = it
                     updateCelsiusFromFahrenheit(it)
                 },
+                // Checking here to see if slider went below the 32 degrees threshold to snap it back
                 onValueChangeFinished = {
                     if (fahrenheit < 32f) {
                         fahrenheit = 32f
